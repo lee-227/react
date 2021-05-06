@@ -101,9 +101,9 @@ const Form = () => {
 
 ## React 生命周期
 - 旧版
-![旧版生命周期](images/2021-05-06-21-00-11.png)
+![旧版生命周期](images/2021-05-06-22-24-47.png)
 - 新版
-![新版生命周期](images/2021-05-06-21-01-03.png)
+![新版生命周期](images/2021-05-06-22-25-19.png)
 
 - getDerivedStateFromProps
 ```js
