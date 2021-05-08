@@ -1,7 +1,7 @@
 import Component from './Component';
 // 所有的 jsx 语法中的 html元素 都会经过 react-babel 转译成 React.createElement()
 /**
- * 
+ *
  * @param {*} type 表示该元素类型
  * @param {*} config 该元素传入的所有属性
  * @param {*} children 该元素的子元素
@@ -25,6 +25,19 @@ function createElement(type, config, children) {
     ref,
   };
 }
+function createContext() {
+  function Provider(props) {
+    Provider._value = props.value;
+    return props.children;
+  }
+  function Consumer(props) {
+    return props.children(Provider._value);
+  }
+  return {
+    Provider,
+    Consumer,
+  };
+}
 // 返回一个带有 current 属性的对象，在元素创建完毕后 会把该元素赋值给 current 属性
 function createRef() {
   return { current: null };
@@ -33,5 +46,6 @@ const React = {
   createElement,
   Component,
   createRef,
+  createContext,
 };
 export default React;
