@@ -60,6 +60,6 @@ class ChildCounter extends React.Component {
     console.log('ChildCounter 4.componentWillReceiveProps');
   }
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.n % 3 === 0;
+    return nextProps.count % 2 === 0;
   }
 }
