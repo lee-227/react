@@ -18,7 +18,7 @@ function createElement(type, config, children) {
     children = Array.prototype.slice.call(arguments, 2);
   }
   props.children = children;
-  // jax 代码中的元素 实际就是这样的一个对象，有 type 标识该元素的类型，props 代表改元素的属性
+  // jsx 代码中的元素 实际就是这样的一个对象，有 type 标识该元素的类型，props 代表改元素的属性
   return {
     type,
     props,

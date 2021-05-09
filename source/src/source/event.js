@@ -20,7 +20,7 @@ function dispatchEvent(event) {
   let eventType = `on${type}`;
   // 为防止在事件中多次 setState 会进行多次更新，将 isBatchingUpdate 赋值为false，组织组件的立即更新。
   updateQueue.isBatchingUpdate = true;
-  // react 创建了自己的事件对象 代替原生事件对象
+  // react 创建了自己的事件对象 代替原生事件对象 兼容不同浏览器 事件对象不一样的bug
   let syntheticEvent = createSyntheticEvent(event);
   // 通过冒泡的方式 从触发对象查找对象对应类型的事件处理函数 触发函数
   while (target) {
