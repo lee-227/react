@@ -112,3 +112,24 @@ export function useEffect(callback, dependencies) {
     setTimeout(callback);
   }
 }
+
+export function useRef(initialState) {
+  hookStates[hookIndex] = hookStates[hookIndex] || { current: initialState };
+  return hookStates[hookIndex++];
+}
+
+let lastLayoutDependencies;
+export function useLayoutEffect(callback, dependencies) {
+  if (lastLayoutDependencies) {
+    let changed = !dependencies.every(
+      (item, index) => item === lastLayoutDependencies[index]
+    );
+    if (changed) {
+      queueMicrotask(callback);
+      lastLayoutDependencies = dependencies;
+    }
+  } else {
+    Promise.resolve().then(callback);
+    lastLayoutDependencies = dependencies;
+  }
+}

@@ -212,3 +212,82 @@ useEffect(() => {
         }
     });
 ```
+
+## useRef
+- useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）
+- 返回的 ref 对象在组件的整个生命周期内保持不变
+```js
+const refContainer = useRef(initialValue);
+```
+## forwardRef
+- 将ref从父组件中转发到子组件中的dom元素上
+- 子组件接受props和ref作为参数
+```js
+function Child(props,ref){
+  return (
+    <input type="text" ref={ref}/>
+  )
+}
+Child = forwardRef(Child);
+function Parent(){
+  let [number,setNumber] = useState(0); 
+  const inputRef = useRef();
+  function getFocus(){
+    inputRef.current.value = 'focus';
+    inputRef.current.focus();
+  }
+  return (
+      <>
+        <Child ref={inputRef}/>
+        <button onClick={()=>setNumber({number:number+1})}>+</button>
+        <button onClick={getFocus}>获得焦点</button>
+      </>
+  )
+}
+```
+## useImperativeHandle
+- useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值
+- 在大多数情况下，应当避免使用 ref 这样的命令式代码。useImperativeHandle 应当与 forwardRef 一起使用
+```js
+function Child(props,ref){
+  const inputRef = useRef();
+  useImperativeHandle(ref,()=>(
+    {
+      focus(){
+        inputRef.current.focus();
+      }
+    }
+  ));
+  return (
+    <input type="text" ref={inputRef}/>
+  )
+}
+Child = forwardRef(Child);
+function Parent(){
+  let [number,setNumber] = useState(0); 
+  const inputRef = useRef();
+  function getFocus(){
+    console.log(inputRef.current);
+    inputRef.current.value = 'focus';
+    inputRef.current.focus();
+  }
+  return (
+      <>
+        <Child ref={inputRef}/>
+        <button onClick={()=>setNumber({number:number+1})}>+</button>
+        <button onClick={getFocus}>获得焦点</button>
+      </>
+  )
+}
+```
+
+## useLayoutEffect 
+- 其函数签名与 useEffect 相同，但它会在所有的 DOM 变更之后同步调用 effect
+- useEffect不会阻塞浏览器渲染，而 useLayoutEffect 会浏览器渲染
+- useEffect会在浏览器渲染结束后执行,useLayoutEffect 则是在 DOM 更新完成后,浏览器绘制之前执行
+
+## 自定义 Hook
+- 自定义 Hook 可以让你在不增加组件的情况下重用一些状态逻辑
+- Hook 是一种复用状态逻辑的方式，它不复用 state 本身
+- 事实上 Hook 的每次调用都有一个完全独立的 state
+- 自定义 Hook 更像是一种约定，而不是一种功能。如果函数的名字以 use 开头，并且调用了其他的 Hook，则就称其为一个自定义 Hook。

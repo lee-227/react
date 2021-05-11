@@ -1,5 +1,4 @@
 import { addEvent } from './event';
-
 // 渲染函数，根据虚拟 dom 生成真实节点 挂载在 container 上
 function render(vdom, container) {
   const dom = createDOM(vdom);
