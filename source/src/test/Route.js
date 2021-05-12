@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
@@ -75,8 +75,11 @@ function Profile() {
     </div>
   );
 }
-function UserAdd() {
-  return <h2>UserAdd</h2>;
+function UserAdd(props) {
+  function click() {
+    props.history.go(-1);
+  }
+  return <h2 onClick={click}>UserAdd</h2>;
 }
 function UserList() {
   return <h2>UserList</h2>;

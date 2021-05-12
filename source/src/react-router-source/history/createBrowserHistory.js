@@ -21,6 +21,12 @@ function createBrowserHistory(props) {
       listeners = listeners.filter((l) => l !== listener);
     };
   }
+  window.addEventListener('popstate', (e) => {
+    setState({
+      action: e.type,
+      location: { state: e.state, pathname: window.location.pathname },
+    });
+  });
   function setState(newState) {
     Object.assign(history, newState);
     history.length = globalHistory.length;
