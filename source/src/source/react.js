@@ -1,5 +1,4 @@
 import Component from './Component';
-import { useState, useMemo, useCallback } from './react-dom';
 // 所有的 jsx 语法中的 html元素 都会经过 react-babel 转译成 React.createElement()
 /**
  *
@@ -48,8 +47,5 @@ const React = {
   Component,
   createRef,
   createContext,
-  useState,
-  useMemo,
-  useCallback,
 };
 export default React;
