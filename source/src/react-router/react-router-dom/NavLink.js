@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from './';
+import { Link } from '.';
 import { __RouterContext as RouterContext, matchPath } from '../react-router';
 function NavLink(props) {
   let context = React.useContext(RouterContext);

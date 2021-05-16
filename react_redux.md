@@ -171,3 +171,47 @@ const actions = {
 }
 // 
 ```
+
+## connected-react-router
+```js
+// 1. 监听路由变化 当路由变化时 dispatch locationChange 事件 修改 store.router 中location 跟 action的值
+<Provider store={store}>
+    <ConnectedRouter history={history}>
+        ...
+    </ConnectedRouter>
+</Provider>
+
+// 2. 创建一个history对象
+import { createBrowserHistory } from 'history'
+let history = createBrowserHistory();
+export default history;
+
+// 3. 在 store 中添加一个路由的reducer 添加 router 对象 里边存储着当前的location 跟 action
+import { combineReducers} from 'redux'
+import { connectRouter } from 'connected-react-router'
+import counter from './counter';
+import history from '../../history';
+let reducers = {
+    router: connectRouter(history),
+    counter
+};
+let rootReducer = combineReducers(reducers);
+export default rootReducer;
+
+// 4. 在 reducer 中使用 router跳转api 他会派发一个action type为 CALL_HISTORY_METHOD
+import { push } from 'connected-react-router';
+export default {
+    go(path) {
+        return push(path);
+    }
+}
+
+// 5. 改中间件负责处理 type 为 CALL_HISTORY_METHOD 的 action 进行路由跳转
+import { applyMiddleware, createStore } from 'redux'
+import { routerMiddleware } from 'connected-react-router'
+import history from '../history';
+import reducers from './reducers';
+const store = applyMiddleware(routerMiddleware(history))(createStore)(reducers);
+window.store = store;
+export default store;
+```
