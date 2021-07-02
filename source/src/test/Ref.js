@@ -1,4 +1,4 @@
-import React from '../source/react';
+import React from '../react/react';
 
 export default class Sum extends React.Component {
   constructor(props) {

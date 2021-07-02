@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -6,9 +6,9 @@ import {
   Redirect,
   Link,
   NavLink,
-  Prompt,
-} from '../react-router-source';
-export default function () {
+  Prompt
+} from '../react-router'
+export default function Component() {
   return (
     <Router>
       <li>
@@ -17,8 +17,7 @@ export default function () {
           style={{ textDecoration: 'line-through' }}
           activeStyle={{ color: 'red' }}
           to='/'
-          exact
-        >
+          exact>
           Home
         </NavLink>
       </li>
@@ -39,10 +38,10 @@ export default function () {
         <Redirect to='/'></Redirect>
       </Switch>
     </Router>
-  );
+  )
 }
 function Home() {
-  return <h1>home</h1>;
+  return <h1>home</h1>
 }
 function User(props) {
   return (
@@ -61,7 +60,7 @@ function User(props) {
         <Route path='/user/detail/:id' component={UserDetail} />
       </div>
     </div>
-  );
+  )
 }
 
 function Profile() {
@@ -73,17 +72,17 @@ function Profile() {
       />
       <h1>Profile</h1>
     </div>
-  );
+  )
 }
 function UserAdd(props) {
   function click() {
-    props.history.go(-1);
+    props.history.go(-1)
   }
-  return <h2 onClick={click}>UserAdd</h2>;
+  return <h2 onClick={click}>UserAdd</h2>
 }
 function UserList() {
-  return <h2>UserList</h2>;
+  return <h2>UserList</h2>
 }
 function UserDetail() {
-  return <h2>UserDetail</h2>;
+  return <h2>UserDetail</h2>
 }

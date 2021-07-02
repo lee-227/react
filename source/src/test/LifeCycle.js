@@ -1,8 +1,8 @@
-import React from '../source/react';
+import React from '../react/react';
 
 export default class Counter extends React.Component {
   static defaultProps = {
-    name: '珠峰架构',
+    name: 'lee',
   };
   constructor(props) {
     super(props);
