@@ -31,5 +31,19 @@ export const createElement = (type, props, ...children) => {
 function createRef() {
   return { current: null };
 }
-const React = { createElement, Component, createRef };
+function createContext() {
+  function Provider(props) {
+    Provider._value = props.value;
+    return props.children;
+  }
+  function Consumer(props) {
+    return props.children(Provider._value);
+  }
+  return {
+    Provider,
+    Consumer,
+  };
+}
+
+const React = { createElement, Component, createRef, createContext };
 export default React;
