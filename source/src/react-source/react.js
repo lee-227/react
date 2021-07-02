@@ -1,3 +1,4 @@
+import Component from "./component";
 // jsx 会在编译时被转换成 React.createElement js 语法
 // 通过该方法生虚拟 dom
 export const createElement = (type, props, ...children) => {
@@ -9,23 +10,26 @@ export const createElement = (type, props, ...children) => {
       child !== null
     ) {
       if (child instanceof Array) {
-        child.forEach((c) => arr.push(c))
+        child.forEach((c) => arr.push(c));
       } else if (child instanceof Object) {
-        arr.push(child)
+        arr.push(child);
       } else {
         // 文本节点特殊处理 {type:'text',props:{textContent: 'str'}}
-        arr.push(createElement('text', { textContent: child }))
+        arr.push(createElement("text", { textContent: child }));
       }
     }
-    return arr
-  }, [])
-  delete props.__source
-  delete props.__self
+    return arr;
+  }, []);
+  delete props.__source;
+  delete props.__self;
   return {
     type,
     props: Object.assign({ children: childElements }, props),
-    children: childElements
-  }
+    children: childElements,
+  };
+};
+function createRef() {
+  return { current: null };
 }
-const React = { createElement }
-export default React
+const React = { createElement, Component, createRef };
+export default React;
