@@ -1,3 +1,4 @@
+import { addEvent, removeEvent } from "./event";
 import { isFunction } from "./util";
 // render 函数 最终将虚拟 dom 生成真实 dom
 export const render = (
@@ -159,15 +160,16 @@ function mountElement(virtualDOM, container, oldDOM) {
 function diffComponent(virtualDOM, oldComponent, oldDOM, container) {
   if (virtualDOM.type === oldComponent.constructor) {
     oldComponent.componentWillReceiveProps(virtualDOM.props);
-    if (oldComponent.shouldComponentUpdate(virtualDOM.props)) {
-      let oldProps = oldComponent.props;
-      oldComponent.componentWillUpdate(virtualDOM.props);
-      oldComponent.updateProps(virtualDOM.props);
-      let nextVirtualDOM = oldComponent.render();
-      nextVirtualDOM.component = oldComponent;
-      diff(nextVirtualDOM, container, oldDOM);
-      oldComponent.componentDidUpdate(oldProps);
-    }
+    oldComponent.updater.emitUpdate(virtualDOM.props);
+    // if (oldComponent.shouldComponentUpdate(virtualDOM.props)) {
+    //   let oldProps = oldComponent.props;
+    //   oldComponent.componentWillUpdate(virtualDOM.props);
+    //   oldComponent.updateProps(virtualDOM.props);
+    //   let nextVirtualDOM = oldComponent.render();
+    //   nextVirtualDOM.component = oldComponent;
+    //   diff(nextVirtualDOM, container, oldDOM);
+    //   oldComponent.componentDidUpdate(oldProps);
+    // }
   } else {
     mountElement(virtualDOM, container, oldDOM);
   }
@@ -215,9 +217,6 @@ function mountNativeElement(virtualDOM, container, oldDOM) {
   } else {
     container.appendChild(element);
   }
-  // if (oldDOM) {
-  //   unmountNode(oldDOM);
-  // }
 
   // 获取类组件实例对象
   let component = virtualDOM.component;
@@ -225,6 +224,9 @@ function mountNativeElement(virtualDOM, container, oldDOM) {
   if (component) {
     // 将DOM对象存储在类组件实例对象中
     component.setDOM(element);
+    if (oldDOM) {
+      unmountNode(oldDOM);
+    }
   }
 }
 function createDOMElement(virtualDOM) {
@@ -267,13 +269,7 @@ function updateProps(newElement, virtualDOM, oldVirtualDOM = {}) {
       newElement[key] = newPropsValue;
     } else if (key.slice(0, 2) === "on") {
       if (oldPropsValue !== newPropsValue) {
-        newElement.addEventListener(key.slice(2).toLowerCase(), newPropsValue);
-        if (oldPropsValue) {
-          newElement.removeEventListener(
-            key.slice(2).toLowerCase(),
-            oldPropsValue,
-          );
-        }
+        addEvent(newElement, key.toLocaleLowerCase(), newPropsValue);
       }
     } else if (key === "style") {
       let value = Reflect.ownKeys(newPropsValue).reduce((str, key) => {
@@ -291,8 +287,7 @@ function updateProps(newElement, virtualDOM, oldVirtualDOM = {}) {
     const oldPropsValue = oldProps[propName];
     if (!newPropsValue) {
       if (propName.slice(0, 2) === "on") {
-        const eventName = propName.toLowerCase().slice(2);
-        newElement.removeEventListener(eventName, oldPropsValue);
+        removeEvent(newElement, propName.toLocaleLowerCase(), oldPropsValue);
       } else if (propName !== "children") {
         newElement.removeAttribute(propName);
       }

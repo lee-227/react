@@ -27,7 +27,7 @@ import ReactDOM from "./react-source/react-dom";
 // );
 // setTimeout(() => {
 //   ReactDOM.render(
-//     <ClassComponent title='计数器123'>world2</ClassComponent>,
+//     <ClassComponent2 title='计数器123'>world2</ClassComponent2>,
 //     document.getElementById("root"),
 //   );
 // }, 2000);
@@ -41,5 +41,5 @@ import ReactDOM from "./react-source/react-dom";
 // ReactDOM.render(<Ref></Ref>, document.getElementById("root"));
 
 // 6. key
-// import KeyDemo from "./test/Key";
-// ReactDOM.render(<KeyDemo></KeyDemo>, document.getElementById("root"));
+import KeyDemo from "./test/Key";
+ReactDOM.render(<KeyDemo></KeyDemo>, document.getElementById("root"));
