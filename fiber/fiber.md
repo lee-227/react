@@ -247,5 +247,3 @@ DOM 更新操作: newFiber vs oldFiber -> Fiber[] -> DOM
 ```
 
 <img src="./images/3.png"/>
-
-![联系方式](https://s.zceme.cn/fed/cover-h.jpg)
