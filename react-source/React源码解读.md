@@ -805,7 +805,7 @@ rootFiber 指向 fiberRoot，在 rootFiber 对象中有一个 stateNode 属性�
 
 fiberRoot 会记录应用的更新信息，比如协调器在完成工作后，会将工作成果存储在 fiberRoot 中。
 
-<img src="./images/7.png" width="90%" align="left"/>
+<img src="./images/7.png" width="100%" align="left"/>
 
 ## 5. 初始化渲染
 
@@ -970,7 +970,7 @@ function legacyRenderSubtreeIntoContainer(
 }
 ```
 
-<img src="./images/5.png" width="80%" align="left"/>
+<img src="./images/5.png" width="100%" align="left"/>
 
 ##### 5.1.3.2 legacyCreateRootFromDOMContainer
 
