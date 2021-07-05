@@ -525,7 +525,7 @@ function completeUnitOfWork(workInProgress) {
     // 构建链表
     if (workInProgress.effectTag) {
       if (returnFiber.lastEffect) {
-        returnFiber.lastEffect.nextEffect = workInProgress
+        returnFiber.lastEffect.nextEffect = workInProgress.firstEffect ||  workInProgress
       } else {
         returnFiber.firstEffect = workInProgress
       }
