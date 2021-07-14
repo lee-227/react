@@ -215,3 +215,143 @@ const store = applyMiddleware(routerMiddleware(history))(createStore)(reducers);
 window.store = store;
 export default store;
 ```
+
+## redux-saga
+```js
+// 1. counter.saga.js
+import { takeEvery, put, delay } from 'redux-saga/effects';
+import { increment } from '../actions/counter.actions';
+import { INCREMENT_ASYNC } from '../const/counter.const';
+
+// takeEvery 接收 action
+// put 触发 action
+function* increment_async_fn (action) {
+  yield delay(2000);
+  yield put(increment(action.payload))
+}
+
+export default function* counterSaga () {
+  // 接收action
+  yield takeEvery(INCREMENT_ASYNC, increment_async_fn)
+}
+
+// 2. modal.saga.js
+import { takeEvery, put, delay } from 'redux-saga/effects';
+import { SHOWMODAL_ASYNC } from '../const/modal.const';
+import { show } from '../actions/modal.actions';
+
+function* showModal_async_fn () {
+  yield delay(2000);
+  yield put(show());
+}
+
+export default function* modalSaga () {
+  yield takeEvery(SHOWMODAL_ASYNC, showModal_async_fn)
+}
+
+// 3. root.saga.js 合并模块saga
+import { all } from 'redux-saga/effects';
+import counterSaga from './counter.saga';
+import modalSaga from './modal.saga';
+
+export default function* rootSaga () {
+  yield all([
+    counterSaga(),
+    modalSaga()
+  ])
+}
+
+// 4. redux 使用 saga 中间件
+import createSagaMidddleware from 'redux-saga';
+import rootSaga from './root.saga';
+// 创建 sagaMiddleware
+const sagaMiddleware = createSagaMidddleware();
+export const store = createStore(RootReducer, applyMiddleware(sagaMiddleware));
+// 启动 counterSaga
+sagaMiddleware.run(rootSaga)
+```
+
+## redux-actions
+```js
+// 1. actions
+import { createAction } from 'redux-actions';
+const increment = createAction('increment'); 
+let incrementObj = increment();// { type:"increment"}
+let objincrement = increment(10);// {type:"increment",paylaod:10}
+
+// 2. import { handleActions as createReducer } from "redux-actions"
+var initstate = {count:0}
+var reducer = createReducer({
+    [increment]: (state, action) => ({
+      counter: state.counter + action.payload
+    }),
+},initstate)
+```
+
+## @reduxjs/toolkit
+```js
+// todo.slice.js
+import {
+  createSlice,
+  createAsyncThunk,
+  createEntityAdapter,
+  createSelector
+} from "@reduxjs/toolkit"
+import axios from "axios"
+
+const todosAdapter = createEntityAdapter({
+  selectId: todo => todo.cid
+})
+
+export const TODOS_FEATURE_KEY = "todos"
+
+export const loadTodos = createAsyncThunk("todos/loadTodos", payload =>
+  axios.get(payload).then(response => response.data)
+)
+
+const { reducer: TodosReducer, actions } = createSlice({
+  name: TODOS_FEATURE_KEY,
+  initialState: todosAdapter.getInitialState(),
+  reducers: {
+    addTodo: {
+      reducer: todosAdapter.addOne,
+      prepare: todo => {
+        return {
+          payload: { cid: Math.random(), ...todo }
+        }
+      }
+    },
+    setTodos: todosAdapter.addMany
+  },
+  extraReducers: {
+    [loadTodos.pending]: (state, action) => {
+      console.log("pending")
+      return state
+    },
+    [loadTodos.fulfilled]: todosAdapter.addMany
+  }
+})
+
+const { selectAll } = todosAdapter.getSelectors()
+
+export const selectTodos = createSelector(
+  state => state[TODOS_FEATURE_KEY],
+  selectAll
+)
+export const { addTodo, setTodos } = actions
+export default TodosReducer
+
+// index.js
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
+import TodosReducer, { TODOS_FEATURE_KEY } from "./todos.slice"
+import logger from "redux-logger"
+
+export default configureStore({
+  reducer: {
+    [TODOS_FEATURE_KEY]: TodosReducer
+  },
+  devTools: process.env.NODE_ENV !== "production",
+  middleware: [...getDefaultMiddleware(), logger]
+})
+
+```
