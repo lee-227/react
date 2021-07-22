@@ -1,5 +1,7 @@
+import React from "react"
+
 function App() {
-  return <div>lee</div>;
+  return <div>App works</div>
 }
 
-export default App;
+export default App

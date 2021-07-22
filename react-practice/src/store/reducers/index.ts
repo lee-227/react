@@ -1,11 +1,26 @@
-import { connectRouter } from "connected-react-router";
-import { History } from "history";
-import { combineReducers } from "redux";
-import testReducer from "./test.reducer";
+import { connectRouter, RouterState } from "connected-react-router"
+import { combineReducers } from "redux"
+import { History } from "history"
+import authReducer from "./auth.reducer"
+import { AuthState } from "./auth.reducer"
+import categoryReducer from "./category.reducer"
+import { CategoryState } from "./category.reducer"
+import productReducer from "./product.reducer"
+import { ProductState } from "./product.reducer"
+
+export interface AppState {
+  router: RouterState
+  auth: AuthState
+  category: CategoryState
+  product: ProductState
+}
 
 const createRootReducer = (history: History) =>
   combineReducers({
     router: connectRouter(history),
-    test: testReducer,
-  });
-export default createRootReducer;
+    auth: authReducer,
+    category: categoryReducer,
+    product: productReducer
+  })
+
+export default createRootReducer
