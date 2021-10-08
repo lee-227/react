@@ -25,8 +25,8 @@ function* hanleSignup(action: SignupAction) {
 
 function* handleSignin(action: SigninAction) {
   try {
-    let response = yield axios.post(`${API}/signin`, action.payload)
-    localStorage.setItem("jwt", JSON.stringify(response.data))
+    // let response = yield 'axios.post(`${API}/signin`, action.payload)'
+    // localStorage.setItem("jwt", JSON.stringify(response.data))
     yield put(signinSuccess())
   } catch (error) {
     yield put(signinFail(error.response.data.error))

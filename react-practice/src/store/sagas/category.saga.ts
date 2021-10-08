@@ -5,8 +5,8 @@ import { API } from "../../config"
 import { Category } from "../models/category"
 
 function* handleGetCategory() {
-  let response = yield axios.get<Category[]>(`${API}/categories`)
-  yield put(getCategorySuccess(response.data))
+  // let response = yield axios.get<Category[]>(`${API}/categories`)
+  // yield put(getCategorySuccess(response.data))
 }
 
 export default function* categorySaga() {
