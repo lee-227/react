@@ -1,34 +1,34 @@
-import { put, takeEvery } from "redux-saga/effects"
+import { put, takeEvery } from 'redux-saga/effects'
 import {
   SIGNUP,
   SignupAction,
   signupSuccess,
-  signupFail
-} from "../actions/auth.actions"
-import axios from "axios"
-import { API } from "../../config"
+  signupFail,
+} from '../actions/auth.actions'
+import axios from 'axios'
+import { API } from '../../config'
 import {
   SIGNIN,
   SigninAction,
   signinSuccess,
-  signinFail
-} from "../actions/auth.actions"
+  signinFail,
+} from '../actions/auth.actions'
 
 function* hanleSignup(action: SignupAction) {
   try {
     yield axios.post(`${API}/signup`, action.payload)
     yield put(signupSuccess())
-  } catch (error) {
+  } catch (error: any) {
     yield put(signupFail(error.response.data.error))
   }
 }
 
-function* handleSignin(action: SigninAction) {
+function* handleSignin(action: SigninAction): Generator<any, any, any> {
   try {
-    // let response = yield 'axios.post(`${API}/signin`, action.payload)'
-    // localStorage.setItem("jwt", JSON.stringify(response.data))
+    let response = yield axios.post(`${API}/signin`, action.payload)
+    localStorage.setItem('jwt', JSON.stringify(response.data))
     yield put(signinSuccess())
-  } catch (error) {
+  } catch (error: any) {
     yield put(signinFail(error.response.data.error))
   }
 }

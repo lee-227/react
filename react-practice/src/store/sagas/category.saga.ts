@@ -1,12 +1,12 @@
-import { takeEvery, put } from "redux-saga/effects"
-import { GET_CATEGORY, getCategorySuccess } from "../actions/category.actions"
-import axios from "axios"
-import { API } from "../../config"
-import { Category } from "../models/category"
+import { takeEvery, put } from 'redux-saga/effects'
+import { GET_CATEGORY, getCategorySuccess } from '../actions/category.actions'
+import axios from 'axios'
+import { API } from '../../config'
+import { Category } from '../models/category'
 
-function* handleGetCategory() {
-  // let response = yield axios.get<Category[]>(`${API}/categories`)
-  // yield put(getCategorySuccess(response.data))
+function* handleGetCategory(): Generator<any, any, any> {
+  let response = yield axios.get<Category[]>(`${API}/categories`)
+  yield put(getCategorySuccess(response.data))
 }
 
 export default function* categorySaga() {
