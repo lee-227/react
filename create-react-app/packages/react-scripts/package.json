@@ -1,0 +1,25 @@
+{
+  "name": "react-scripts",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "XiaoLee <lee_227@163.com>",
+  "homepage": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-loader": "^9.1.3",
+    "babel-preset-react-app": "^10.0.1",
+    "html-webpack-plugin": "^5.5.3",
+    "open": "^9.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "webpack": "^5.88.2",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "scripts": {
+    "build": "node ./bin/react-scripts build",
+    "start": "node ./bin/react-scripts start"
+  },
+  "bin": {
+    "react-scripts": "./bin/react-scripts"
+  }
+}

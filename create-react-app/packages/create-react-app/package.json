@@ -1,0 +1,9 @@
+{
+  "name": "create-react-app",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "XiaoLee <lee_227@163.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "./index.js"
+}
