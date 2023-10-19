@@ -44,6 +44,9 @@ function dispatchEvent(event) {
             syntheticEvent.target = target;//button
             syntheticEvent.currentTarget = currentTarget;
             eventHandler && eventHandler.call(target, syntheticEvent);//handleClick(syntheticEvent);
+            if (syntheticEvent.isPropagationStopped) {
+                break;
+            }
         }
         currentTarget = currentTarget.parentNode;
     }
@@ -54,8 +57,35 @@ function dispatchEvent(event) {
 function createSyntheticEvent(nativeEvent) {
     let syntheticEvent = { nativeEvent };
     for (let key in nativeEvent) {
+        let value = nativeEvent[key];
+        if (typeof value === 'function') value = value.bind(nativeEvent);
         syntheticEvent[key] = nativeEvent[key];
     }
+    syntheticEvent.nativeEvent = nativeEvent;
+    syntheticEvent.isDefaultPrevented = false;
+    syntheticEvent.isPropagationStopped = false;
+    syntheticEvent.preventDefault = preventDefault;
+    syntheticEvent.stopPropagation = stopPropagation;
     //此处会有一些兼容性处理
     return syntheticEvent;
 }
+function preventDefault() {
+    this.defaultPrevented = true;
+    const event = this.nativeEvent;
+    if (event.preventDefault) {
+      event.preventDefault();
+    } else {//IE
+      event.returnValue = false;
+    }
+    this.isDefaultPrevented = true;
+  }
+  
+  function stopPropagation() {
+    const event = this.nativeEvent;
+    if (event.stopPropagation) {
+      event.stopPropagation();
+    } else {//IE
+      event.cancelBubble = true;
+    }
+    this.isPropagationStopped = true;
+  }
